@@ -4,43 +4,24 @@ import SCCalculator from "./Calculator.styled";
 export default function Calculator() {
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
-  const [bmi, setBmi] = useState({ value: null, absoluteState: ">" });
-  const [idealRange, setIdealRange] = useState({ min: 0, max: 0 });
+  const [bmi, setBmi] = useState({
+    value: null,
+    absoluteState: ">",
+    idealRange: { min: 0, max: 0 },
+  });
   const [units, setUnits] = useState("M");
   const emptyFields =
-    (units === "M" && !weight && !height) ||
+    (units === "M" && (!weight || !height)) ||
     (units === "I" &&
-      !weight.stones &&
-      !weight.pounds &&
-      !height.feet &&
-      !height.inches);
+      ((!weight.stones && !weight.pounds) || (!height.feet && !height.inches)));
 
-  // function calculate_bmi(data) {
-  //   const { weight, height, units } = data;
+  function metric_weight_to_imperial(kilograms) {
+    const kilogramsPerStone = 0.1575;
+    const stones = Number((kilograms * kilogramsPerStone).toFixed(2));
+    const pounds = Math.round(14 * (stones % 1));
 
-  //   console.log(data);
-
-  //   if (!height || (!height.feet && !height.inches)) return null;
-
-  //   if (units === "M") {
-  //     const meters = height / 100;
-  //     const bmi = weight / (meters * meters);
-
-  //     return bmi;
-  //   } else {
-  //     const inchesPerFoot = 12;
-  //     const poundsPerStone = 14;
-  //     const inchesPerMeter = 39.37;
-  //     const poundsPerKilogram = 2.2046;
-  //     const inches = height.inches + height.feet * inchesPerFoot;
-  //     const pounds = weight.pounds + weight.stones * poundsPerStone;
-  //     const meters = inches / inchesPerMeter;
-  //     const kilograms = pounds / poundsPerKilogram;
-  //     const bmi = kilograms / (meters * meters);
-
-  //     return bmi;
-  //   }
-  // }
+    return `${~~stones}st ${pounds}lb`;
+  }
 
   function toggle_units() {
     if (units === "M") {
@@ -48,12 +29,20 @@ export default function Calculator() {
         const meters = prevHeight / 100;
         const inchesPerMeter = 39.37;
         const inchesPerFoot = 12;
+        const minBmi = 18.5;
+        const maxBmi = 24.9;
+        const minWeight = (minBmi * prevHeight * prevHeight) / 1e4;
+        const maxWeight = (maxBmi * prevHeight * prevHeight) / 1e4;
+        const min = metric_weight_to_imperial(minWeight);
+        const max = metric_weight_to_imperial(maxWeight);
         let inches, feet;
 
         inches = meters * inchesPerMeter;
         feet = inches / inchesPerFoot;
         inches = Math.round(inchesPerFoot * (feet % 1));
         feet = ~~feet;
+
+        setBmi((prev) => ({ ...prev, idealRange: { min, max } }));
 
         return { feet, inches };
       });
@@ -77,6 +66,12 @@ export default function Calculator() {
         const inches = prevHeight.inches + inchesPerFoot * prevHeight.feet;
         const meters = inches / inchesPerMeter;
         const centimeters = Math.round(meters * centimetersPerMeter);
+        const minBmi = 18.5;
+        const maxBmi = 24.9;
+        const min = `${(minBmi * meters * meters).toFixed(1)}kg`;
+        const max = `${(maxBmi * meters * meters).toFixed(1)}kg`;
+
+        setBmi((prev) => ({ ...prev, idealRange: { min, max } }));
 
         return centimeters;
       });
@@ -96,23 +91,37 @@ export default function Calculator() {
     const target = event.target;
     const value = target.value;
     const number = Number(value);
-    const type = event.target.dataset.measureType;
-    let bmi;
+    const type = target.dataset.measureType;
+    const minBmi = 18.5;
+    const maxBmi = 24.9;
+    let bmi, idealRange;
 
     if (units === "M") {
-      if (type === "weight") bmi = number / (height * height);
-      else bmi = weight / (number * number);
+      if (type === "weight") {
+        bmi = (1e4 * number) / (height * height);
+        idealRange = {
+          min: `${((minBmi * (height * height)) / 1e4).toFixed(1)}kg`,
+          max: `${((maxBmi * (height * height)) / 1e4).toFixed(1)}kg`,
+        };
+      } else {
+        bmi = (1e4 * weight) / (number * number);
+        idealRange = {
+          min: `${((minBmi * (number * number)) / 1e4).toFixed(1)}`,
+          max: `${((maxBmi * number * number) / 1e4).toFixed(1)}`,
+        };
+      }
 
-      setBmi((prev) => ({ ...prev, value: bmi }));
       setter(value ? number : value);
     } else {
       const name = target.name;
+      const inchesPerFoot = 12;
+      const feetPerMeter = 3.28;
+      const inchesPerMeter = 39.37;
+      const kilogramsPerStone = 0.1575;
+      const poundsPerKilogram = 2.2046;
+      let minWeight, maxWeight;
 
       if (type === "weight") {
-        const inchesPerFoot = 12;
-        const inchesPerMeter = 39.37;
-        const kilogramsPerStone = 0.1575;
-        const poundsPerKilogram = 2.2046;
         const meters =
           (height.feet * inchesPerFoot) / inchesPerMeter +
           height.inches / inchesPerMeter;
@@ -126,15 +135,32 @@ export default function Calculator() {
             weight.stones / kilogramsPerStone + number / poundsPerKilogram;
         }
 
+        minWeight = minBmi * meters * meters;
+        maxWeight = maxBmi * meters * meters;
         bmi = kilograms / (meters * meters);
-        setBmi((prev) => ({ ...prev, value: bmi }));
       } else {
+        const kilograms =
+          weight.stones / kilogramsPerStone + weight.pounds / poundsPerKilogram;
+        let meters;
+
+        if (name === "feet")
+          meters = number / feetPerMeter + height.inches / inchesPerMeter;
+        else meters = height.feet / feetPerMeter + number / inchesPerMeter;
+
+        minWeight = minBmi * meters * meters;
+        maxWeight = maxBmi * meters * meters;
+        bmi = kilograms / (meters * meters);
       }
 
+      idealRange = {
+        min: metric_weight_to_imperial(minWeight),
+        max: metric_weight_to_imperial(maxWeight),
+      };
       setter((prev) => ({ ...prev, [name]: value ? number : value }));
     }
 
-    setBmi(bmi);
+    bmi = Number(bmi.toFixed(2));
+    setBmi((prev) => ({ ...prev, value: bmi, idealRange }));
   }
 
   return (
@@ -147,6 +173,7 @@ export default function Calculator() {
       >
         measures
       </button>
+      <button onClick={() => console.log(bmi)}>bmi</button>
       <h3>Enter your details below</h3>
       <div className="units">
         <label htmlFor="metric-option">
@@ -265,7 +292,7 @@ export default function Calculator() {
           </div>
           <p className="ideal-range">
             Your BMI suggests you’re {bmi.absoluteState}. Your ideal weight is
-            between {idealRange.min} - {idealRange.max}.
+            between {bmi.idealRange.min} - {bmi.idealRange.max}.
           </p>
         </div>
       )}
