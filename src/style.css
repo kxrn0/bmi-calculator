@@ -1,0 +1,14 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  --gunmetal: #253347;
+  --dark-electric-blue: #5e6e85;
+  --blue: #345ff6;
+  --light-blue: #345ff626;
+}

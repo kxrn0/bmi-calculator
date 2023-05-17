@@ -165,54 +165,51 @@ export default function Calculator() {
 
   return (
     <SCCalculator>
-      <button
-        onClick={() => {
-          console.log(weight);
-          console.log(height);
-        }}
-      >
-        measures
-      </button>
-      <button onClick={() => console.log(bmi)}>bmi</button>
-      <h3>Enter your details below</h3>
+      <h3 className="heading-m color-gunmetal">Enter your details below</h3>
       <div className="units">
         <label htmlFor="metric-option">
           <input
+            className="gray-border"
             type="radio"
             id="metric-option"
             checked={units === "M"}
             onChange={toggle_units}
+            name="units"
           />
-          <span>Metric</span>
+          <span className="body-m-bold color-gunmetal">Metric</span>
         </label>
         <label htmlFor="imperial-option">
           <input
+            className="gray-border"
             type="radio"
             id="imperial-option"
             checked={units === "I"}
             onChange={toggle_units}
+            name="units"
           />
-          <span>Imperial</span>
+          <span className="body-m-bold color-gunmetal">Imperial</span>
         </label>
       </div>
-      <div className="inputs">
+      <div className={`inputs ${units}`}>
         <label>
-          <span>Height</span>
+          <span className="body-s color-dark-electric-blue">Height</span>
           {units === "M" ? (
-            <span className="input">
+            <span className="input gray-border">
               <input
+                className="heading-m color-gunmetal"
                 type="number"
                 placeholder="0"
                 value={height}
                 onChange={(event) => change_input(event, setHeight)}
                 data-measure-type="height"
               />
-              <span>cm</span>
+              <span className="heading-m color-blue">cm</span>
             </span>
           ) : (
             <span className="sub-inputs">
-              <span className="input">
+              <span className="input gray-border">
                 <input
+                  className="heading-m color-gunmetal"
                   type="number"
                   placeholder="0"
                   name="feet"
@@ -220,10 +217,11 @@ export default function Calculator() {
                   onChange={(event) => change_input(event, setHeight)}
                   data-measure-type="height"
                 />
-                <span>ft</span>
+                <span className="heading-m color-blue">ft</span>
               </span>
-              <span className="input">
+              <span className="input gray-border">
                 <input
+                  className="heading-m color-gunmetal"
                   type="number"
                   placeholder="0"
                   name="inches"
@@ -231,28 +229,30 @@ export default function Calculator() {
                   onChange={(event) => change_input(event, setHeight)}
                   data-measure-type="height"
                 />
-                <span>in</span>
+                <span className="heading-m color-blue">in</span>
               </span>
             </span>
           )}
         </label>
         <label htmlFor="weight-input">
-          <span>Weight</span>
+          <span className="body-s color-dark-electric-blue">Weight</span>
           {units === "M" ? (
-            <span className="input">
+            <span className="input gray-border">
               <input
+                className="heading-m color-gunmetal"
                 type="number"
                 placeholder="0"
                 value={weight}
                 onChange={(event) => change_input(event, setWeight)}
                 data-measure-type="weight"
               />
-              <span>kg</span>
+              <span className="heading-m color-blue">kg</span>
             </span>
           ) : (
             <span className="sub-inputs">
-              <span className="input">
+              <span className="input gray-border">
                 <input
+                  className="heading-m color-gunmetal"
                   type="number"
                   placeholder="0"
                   value={weight.stones}
@@ -260,10 +260,11 @@ export default function Calculator() {
                   onChange={(event) => change_input(event, setWeight)}
                   data-measure-type="weight"
                 />
-                <span>st</span>
+                <span className="heading-m color-blue">st</span>
               </span>
-              <span className="input">
+              <span className="input gray-border">
                 <input
+                  className="heading-m color-gunmetal"
                   type="number"
                   placeholder="0"
                   value={weight.pounds}
@@ -271,7 +272,7 @@ export default function Calculator() {
                   onChange={(event) => change_input(event, setWeight)}
                   data-measure-type="weight"
                 />
-                <span>lb</span>
+                <span className="heading-m color-blue">lb</span>
               </span>
             </span>
           )}
