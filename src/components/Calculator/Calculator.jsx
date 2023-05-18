@@ -94,7 +94,7 @@ export default function Calculator() {
     const type = target.dataset.measureType;
     const minBmi = 18.5;
     const maxBmi = 24.9;
-    let bmi, idealRange;
+    let bmi, idealRange, absoluteState;
 
     if (units === "M") {
       if (type === "weight") {
@@ -160,11 +160,15 @@ export default function Calculator() {
     }
 
     bmi = Number(bmi.toFixed(2));
-    setBmi((prev) => ({ ...prev, value: bmi, idealRange }));
+    if (bmi < 18.5) absoluteState = "underweight";
+    else if (18.5 <= bmi && bmi <= 24.9) absoluteState = "a healthy weight";
+    else if (25 <= bmi && bmi <= 29.9) absoluteState = "overweight";
+    else absoluteState = "obese";
+    setBmi((prev) => ({ ...prev, value: bmi, idealRange, absoluteState }));
   }
 
   return (
-    <SCCalculator>
+    <SCCalculator className="calculator">
       <h3 className="heading-m color-gunmetal">Enter your details below</h3>
       <div className="units">
         <label htmlFor="metric-option">
@@ -279,21 +283,26 @@ export default function Calculator() {
         </label>
       </div>
       {emptyFields ? (
-        <div className="welcome-mesage">
-          <h3>Welcome</h3>
-          <p>
+        <div className="welcome-message bottom-text">
+          <h3 className="heading-m color-white">Welcome</h3>
+          <p className="body-s color-white">
             Enter your height and weight and you’ll see your BMI result here
           </p>
         </div>
       ) : (
-        <div className="results">
+        <div className="results bottom-text">
           <div className="bmi">
-            <p>Your BMI is...</p>
-            <h1>{bmi.value}</h1>
+            <p className="body-m-bold color-white">Your BMI is...</p>
+            <h1 className="heading-xl color-white">{bmi.value}</h1>
           </div>
-          <p className="ideal-range">
-            Your BMI suggests you’re {bmi.absoluteState}. Your ideal weight is
-            between {bmi.idealRange.min} - {bmi.idealRange.max}.
+          <p className="ideal-range body-s color-white">
+            Your BMI suggests you are{" "}
+            <span className="body-m-bold">{bmi.absoluteState}</span>. Your ideal
+            weight is between{" "}
+            <span className="body-m-bold">
+              {bmi.idealRange.min} - {bmi.idealRange.max}
+            </span>
+            .
           </p>
         </div>
       )}
