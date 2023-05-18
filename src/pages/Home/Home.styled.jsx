@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 const SCHome = styled.div`
-  /* background: #f1c9c9; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default SCHome;

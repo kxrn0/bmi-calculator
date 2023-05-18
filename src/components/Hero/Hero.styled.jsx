@@ -15,6 +15,7 @@ const SCHero = styled.main`
   padding: 75px 10px 195px 115px;
   border-bottom-right-radius: 35px;
   border-bottom-left-radius: 35px;
+  margin-bottom: 65px;
 
   .logo {
     width: 64px;
