@@ -22,6 +22,11 @@ const SCTipCard = styled.div`
     flex-direction: row;
     gap: 40px;
   }
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 32px;
+  }
 `;
 
 export default SCTipCard;

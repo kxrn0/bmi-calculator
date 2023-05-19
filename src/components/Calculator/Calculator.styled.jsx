@@ -80,7 +80,7 @@ const SCCalculator = styled.div`
           width: 100%;
           height: 100%;
           padding: 20px 24px;
-          -moz-appearance: textfield;
+          appearance: textfield;
           margin: 0;
 
           &::-webkit-outer-spin-button,

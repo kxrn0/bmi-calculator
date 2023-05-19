@@ -21,6 +21,10 @@ const SCLimitations = styled.section`
 
     p {
       width: 565px;
+
+      @media screen and (max-width: 800px) {
+        width: auto;
+      }
     }
 
     @media screen and (max-width: 1024px) {
@@ -85,6 +89,12 @@ const SCLimitations = styled.section`
         justify-self: center;
       }
     }
+
+    @media screen and (max-width: 800px) {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
   }
 
   @media screen and (max-width: 1024px) {
@@ -94,6 +104,10 @@ const SCLimitations = styled.section`
     gap: 56px;
     /* margin: 0 0 130px 0; */
     margin: 0;
+  }
+
+  @media screen and (max-width: 800px) {
+    padding: 20px;
   }
 `;
 

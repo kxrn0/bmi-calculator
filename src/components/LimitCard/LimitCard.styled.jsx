@@ -15,6 +15,14 @@ const SCLimitCard = styled.div`
     gap: 16px;
     align-items: center;
   }
+
+  @media screen and (max-width: 1024px) {
+    max-width: 335px;
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 330px;
+  }
 `;
 
 export default SCLimitCard;

@@ -25,8 +25,12 @@ const SCDefinition = styled.section`
     @media screen and (max-width: 1024px) {
       width: 435px;
       position: absolute;
-
       right: 450px;
+    }
+
+    @media screen and (max-width: 800px) {
+      width: 100%;
+      position: static;
     }
   }
 
@@ -48,6 +52,13 @@ const SCDefinition = styled.section`
     width: 100%;
     justify-content: flex-end;
     padding-right: 43px;
+  }
+
+  @media screen and (max-width: 800px) {
+    gap: 50px;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
   }
 `;
 
