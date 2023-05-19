@@ -7,16 +7,27 @@ const SCDefinition = styled.section`
   position: relative;
   width: fit-content;
   align-self: center;
-  margin-bottom: 168px;
+  margin-bottom: 95px;
 
   .hair {
     position: absolute;
     bottom: 385px;
     right: 27px;
+
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
   }
 
   .man {
     width: 565px;
+
+    @media screen and (max-width: 1024px) {
+      width: 435px;
+      position: absolute;
+
+      right: 450px;
+    }
   }
 
   .description {
@@ -26,6 +37,17 @@ const SCDefinition = styled.section`
     display: flex;
     flex-direction: column;
     gap: 35px;
+
+    @media screen and (max-width: 1024px) {
+      bottom: auto;
+      width: 330px;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 43px;
   }
 `;
 

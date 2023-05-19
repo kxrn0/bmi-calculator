@@ -5,6 +5,7 @@ const SCTipCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 45px;
+  position: relative;
 
   img {
     width: 64px;
@@ -14,6 +15,12 @@ const SCTipCard = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: auto;
+    flex-direction: row;
+    gap: 40px;
   }
 `;
 

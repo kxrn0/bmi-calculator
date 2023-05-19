@@ -29,10 +29,26 @@ const SCHero = styled.main`
 
     .hero-title {
       width: 565px;
+
+      @media screen and (max-width: 1024px) {
+        width: auto;
+      }
     }
 
     .hero-description {
       width: 465px;
+
+      @media screen and (max-width: 1024px) {
+        width: auto;
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      gap: 24px;
+    }
+
+    @media screen and (max-width: 1024px) {
+      gap: 24px;
     }
   }
 
@@ -40,6 +56,35 @@ const SCHero = styled.main`
     position: absolute;
     top: 180px;
     left: 710px;
+
+    @media screen and (max-width: 1024px) {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 355px;
+    }
+
+    @media screen and (max-width: 625px) {
+      top: 495px;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    padding: 32px 40px;
+    padding-bottom: 325px;
+    width: 100%;
+    height: 640px;
+    top: 0;
+    left: 0;
+    align-items: center;
+    gap: 40px;
+    text-align: center;
+    margin-bottom: 325px;
+  }
+
+  @media screen and (max-width: 800px) {
+    gap: 24px;
+    height: 640px;
+    margin-bottom: 550px;
   }
 `;
 

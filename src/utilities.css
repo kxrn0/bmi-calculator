@@ -88,3 +88,17 @@
 .gray-border {
   border: 1px solid #d8e2e7;
 }
+
+@media screen and (max-width: 1024px) {
+  .heading-xl {
+    font-size: 48px;
+    letter-spacing: -2px;
+    line-height: 53px;
+  }
+
+  .heading-l {
+    font-size: 32px;
+    line-height: 35px;
+    letter-spacing: 1px;
+  }
+}
