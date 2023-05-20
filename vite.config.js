@@ -9,8 +9,8 @@ const options = {
     theme_color: "#232241",
     background_color: "#777777",
     display: "standalone",
-    scope: "/",
-    start_url: "/",
+    scope: "/bmi-calculator",
+    start_url: "/bmi-calculator",
     short_name: "BMI",
     description: "BMI Calculator",
     name: "BMI Calculator",
@@ -45,6 +45,6 @@ const options = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/",
+  base: "/bmi-calculator/",
   plugins: [react(), VitePWA(options)],
 });
